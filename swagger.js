@@ -2,7 +2,7 @@ const swaggerAutogen = require("swagger-autogen")();
 
 const doc = {
   info: {
-    title: "Rockband API",
+    title: "Rockband - Movie API",
     description: "Project 2 API",
   },
   host: "https://cse341-project2-n78x.onrender.com",

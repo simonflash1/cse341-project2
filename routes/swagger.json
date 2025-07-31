@@ -5,11 +5,11 @@
     "description": "Project 2 API",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "https://cse341-project2-n78x.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http",
-    "https"
+    "https",
+    "http"
   ],
   "paths": {
     "/": {
