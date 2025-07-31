@@ -5,8 +5,8 @@ const doc = {
     title: "Rockband API",
     description: "Project 2 API",
   },
-  host: "localhost:8080",
-  schemes: ["http", "https"],
+  host: "https://cse341-project2-n78x.onrender.com",
+  schemes: ["https","http" ],
 };
 
 const outputFile = "./routes/swagger.json";
