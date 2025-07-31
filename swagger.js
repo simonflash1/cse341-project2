@@ -5,7 +5,7 @@ const doc = {
     title: "Rockband - Movie API",
     description: "Project 2 API",
   },
-  host: "https://cse341-project2-n78x.onrender.com",
+  host: "cse341-project2-n78x.onrender.com",
   schemes: ["https","http" ],
 };
 
