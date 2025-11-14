@@ -1,96 +1,111 @@
 const mongodb = require("../routes/data/database");
 const ObjectId = require("mongodb").ObjectId;
 
-const getAllRockbands = async (req, res) => {
+const getCollection = () =>
+  mongodb.getDatabase().db().collection("rockbands");
+
+const getAllRockbands = async (req, res, next) => {
   //#swagger.tags = ["Rockbands"]
-  const result = await mongodb
-    .getDatabase()
-    .db()
-    .collection("rockbands")
-    .find();
-  result.toArray().then((rockbands, err) => {
-    if (err) {
-      res.status(400).json({ message: err });
-    }
-    res.setHeader("Content-Type", "application/json");
+  try {
+    const rockbands = await getCollection().find().toArray();
     res.status(200).json(rockbands);
-  });
+  } catch (err) {
+    next(err);
+  }
 };
 
-const getRockbandById = async (req, res) => {
+const getRockbandById = async (req, res, next) => {
   //#swagger.tags = ["Rockbands"]
-  const rockbandId = new ObjectId(req.params.id);
-  const result = await mongodb
-    .getDatabase()
-    .db()
-    .collection("rockbands")
-    .find({ _id: rockbandId });
-  result.toArray().then((rockband, err) => {
-    if (err) {
-      res.status(400).json({ message: err });
+  try {
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid ID" });
     }
-    res.setHeader("Content-Type", "application/json");
+
+    const rockband = await getCollection().findOne({ _id: new ObjectId(id) });
+
+    if (!rockband) {
+      return res.status(404).json({ message: "Rockband not found" });
+    }
+
     res.status(200).json(rockband);
-  });
+  } catch (err) {
+    next(err);
+  }
 };
 
-const createRockband = async (req, res) => {
+const createRockband = async (req, res, next) => {
   //#swagger.tags = ["Rockbands"]
-  const rockband = {
-    name: req.body.name,
-    year: req.body.year,
-    singer: req.body.singer,
-  };
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("rockbands")
-    .insertOne(rockband);
-  if (response.acknowledged) {
+  try {
+    const rockband = {
+      name: req.body.name,
+      year: req.body.year,
+      singer: req.body.singer,
+    };
+
+    const response = await getCollection().insertOne(rockband);
+
+    if (!response.acknowledged) {
+      throw new Error("Failed to create rockband");
+    }
+
     res.status(201).json(response);
-  } else {
-    res
-      .status(500)
-      .json(response.error || "Some error occured while creating the band");
+  } catch (err) {
+    next(err);
   }
 };
 
-const updateRockbandById = async (req, res) => {
+const updateRockbandById = async (req, res, next) => {
   //#swagger.tags = ["Rockbands"]
-  const rockbandId = new ObjectId(req.params.id);
-  const rockband = {
-    name: req.body.name,
-    year: req.body.year,
-    singer: req.body.singer,
-  };
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("rockbands")
-    .replaceOne({ _id: rockbandId }, rockband);
-  if (response.modifiedCount > 0) {
-    res.status(200).send({ message: "Rockband updated successfully" });
-  } else {
-    res
-      .status(500)
-      .json(response.error || "Some error occured while updating the band");
+  try {
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid ID" });
+    }
+
+    const rockband = {
+      name: req.body.name,
+      year: req.body.year,
+      singer: req.body.singer,
+    };
+
+    const response = await getCollection().replaceOne(
+      { _id: new ObjectId(id) },
+      rockband
+    );
+
+    if (response.matchedCount === 0) {
+      return res.status(404).json({ message: "Rockband not found" });
+    }
+
+    res.status(200).json({ message: "Rockband updated successfully" });
+  } catch (err) {
+    next(err);
   }
 };
 
-const deleteRockbandById = async (req, res) => {
+const deleteRockbandById = async (req, res, next) => {
   //#swagger.tags = ["Rockbands"]
-  const rockbandId = new ObjectId(req.params.id);
-  const response = await mongodb
-    .getDatabase()
-    .db()
-    .collection("rockbands")
-    .deleteOne({ _id: rockbandId });
-  if (response.deletedCount > 0) {
-    res.status(200).send({ message: "Rockband deleted successfully" });
-  } else {
-    res
-      .status(500)
-      .json(response.error || "Some error occured while deleting the band");
+  try {
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid ID" });
+    }
+
+    const response = await getCollection().deleteOne({
+      _id: new ObjectId(id),
+    });
+
+    if (response.deletedCount === 0) {
+      return res.status(404).json({ message: "Rockband not found" });
+    }
+
+    res.status(200).json({ message: "Rockband deleted successfully" });
+  } catch (err) {
+    next(err);
   }
 };
 
