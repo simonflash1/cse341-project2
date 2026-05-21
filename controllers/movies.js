@@ -1,6 +1,9 @@
 const mongodb = require("../routes/data/database");
 const ObjectId = require("mongodb").ObjectId;
 
+const getCollection = () =>
+  mongodb.getDatabase().db().collection("movies");
+
 const getAll = async (req, res, next) => {
   //#swagger.tags=['Movies']
   try {
