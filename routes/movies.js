@@ -11,7 +11,12 @@ router.get("/:id", moviesController.getSingle);
 
 router.post("/", isAuthenticated, validateMovie, moviesController.createMovie);
 
-router.put("/:id", isAuthenticated, validateMovie, moviesController.updateMovie);
+router.put(
+  "/:id",
+  isAuthenticated,
+  validateMovie,
+  moviesController.updateMovie
+);
 
 router.delete("/:id", isAuthenticated, moviesController.deleteMovie);
 

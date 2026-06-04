@@ -2,9 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const bodyparser = require("body-parser");
 const session = require("express-session");
-const passport = require("passport");
-const GitHubStrategy = require("passport-github2").Strategy;
 const mongodb = require("./routes/data/database");
+const passport = require("./config/passport");
 const port = process.env.PORT || 8080;
 const app = express();
 
@@ -31,46 +30,6 @@ app.use((req, res, next) => {
   );
   next();
 });
-
-passport.use(
-  new GitHubStrategy(
-    {
-      clientID: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: process.env.CALLBACK_URL,
-    },
-    function (accessToken, refreshToken, profile, done) {
-      return done(null, profile);
-    }
-  )
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-passport.deserializeUser((user, done) => {
-  done(null, user);
-});
-
-app.get("/", (req, res) => {
-  res.send(
-    req.session.user !== undefined
-      ? `Logged in as ${req.session.user.displayName}`
-      : "Logged Out"
-  );
-});
-
-app.get(
-  "/github/callback",
-  passport.authenticate("github", {
-    failureRedirect: "/api-docs",
-    session: false,
-  }),
-  (req, res) => {
-    req.session.user = req.user;
-    res.redirect("/");
-  }
-);
 
 app.use("/", require("./routes"));
 

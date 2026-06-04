@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Rockband - Movie API",
-    "description": "Project 2 API",
+    "description": "Project 2 API with GitHub OAuth",
     "version": "1.0.0"
   },
   "host": "cse341-project2-n78x.onrender.com",
@@ -11,9 +11,32 @@
     "https",
     "http"
   ],
+  "securityDefinitions": {
+    "oAuthSample": {
+      "type": "oauth2",
+      "authorizationUrl": "https://github.com/login/oauth/authorize",
+      "flow": "implicit",
+      "scopes": {
+        "user:email": "Read access to user email"
+      }
+    }
+  },
   "paths": {
+    "/api-docs": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/": {
       "get": {
+        "tags": [
+          "Auth"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -24,6 +47,22 @@
     },
     "/login": {
       "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/github/callback": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
         "description": "",
         "responses": {
           "default": {
@@ -34,16 +73,9 @@
     },
     "/logout": {
       "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api-docs": {
-      "get": {
+        "tags": [
+          "Auth"
+        ],
         "description": "",
         "responses": {
           "default": {
