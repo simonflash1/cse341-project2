@@ -2,14 +2,27 @@
   "swagger": "2.0",
   "info": {
     "title": "Rockband - Movie API",
-    "description": "Project 2 API with GitHub OAuth",
+    "description": "CSE 341 - Rockband & Movie API. Provides CRUD operations for two MongoDB collections (movies and rockbands), with GitHub OAuth authentication restricting POST, PUT, and DELETE endpoints.",
     "version": "1.0.0"
   },
   "host": "cse341-project2-n78x.onrender.com",
   "basePath": "/",
+  "tags": [
+    {
+      "name": "Movies",
+      "description": "Endpoints to create, read, update, and delete movies. Write operations require GitHub OAuth authentication."
+    },
+    {
+      "name": "Rockbands",
+      "description": "Endpoints to create, read, update, and delete rockbands. Write operations require GitHub OAuth authentication."
+    },
+    {
+      "name": "Auth",
+      "description": "GitHub OAuth authentication endpoints: login, OAuth callback, logout, and session status."
+    }
+  ],
   "schemes": [
-    "https",
-    "http"
+    "https"
   ],
   "securityDefinitions": {
     "oAuthSample": {
@@ -104,6 +117,47 @@
           "Movies"
         ],
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Movie data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "Inception"
+                },
+                "director": {
+                  "type": "string",
+                  "example": "Christopher Nolan"
+                },
+                "releaseYear": {
+                  "type": "number",
+                  "example": 2010
+                },
+                "duration": {
+                  "type": "number",
+                  "example": 148
+                },
+                "genre": {
+                  "type": "string",
+                  "example": "Sci-Fi"
+                },
+                "rating": {
+                  "type": "number",
+                  "example": 8.8
+                },
+                "synopsis": {
+                  "type": "string",
+                  "example": "A thief who steals corporate secrets through dream-sharing technology."
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -157,6 +211,45 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Movie data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "Inception"
+                },
+                "director": {
+                  "type": "string",
+                  "example": "Christopher Nolan"
+                },
+                "releaseYear": {
+                  "type": "number",
+                  "example": 2010
+                },
+                "duration": {
+                  "type": "number",
+                  "example": 148
+                },
+                "genre": {
+                  "type": "string",
+                  "example": "Sci-Fi"
+                },
+                "rating": {
+                  "type": "number",
+                  "example": 8.8
+                },
+                "synopsis": {
+                  "type": "string",
+                  "example": "A thief who steals corporate secrets through dream-sharing technology."
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -224,17 +317,22 @@
           {
             "name": "body",
             "in": "body",
+            "description": "Rockband data",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Queen"
                 },
                 "year": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "1970"
                 },
                 "singer": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Freddie Mercury"
                 }
               }
             }
@@ -294,17 +392,22 @@
           {
             "name": "body",
             "in": "body",
+            "description": "Rockband data",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Queen"
                 },
                 "year": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "1970"
                 },
                 "singer": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Freddie Mercury"
                 }
               }
             }

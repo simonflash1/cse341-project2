@@ -1,4 +1,4 @@
-const mongodb = require("../routes/data/database");
+const mongodb = require("../data/database");
 const ObjectId = require("mongodb").ObjectId;
 
 const getCollection = () =>
@@ -37,6 +37,16 @@ const getRockbandById = async (req, res, next) => {
 
 const createRockband = async (req, res, next) => {
   //#swagger.tags = ["Rockbands"]
+  /*  #swagger.parameters['body'] = {
+        in: 'body',
+        description: 'Rockband data',
+        required: true,
+        schema: {
+          name: 'Queen',
+          year: '1970',
+          singer: 'Freddie Mercury'
+        }
+  } */
   try {
     const rockband = {
       name: req.body.name,
@@ -58,6 +68,16 @@ const createRockband = async (req, res, next) => {
 
 const updateRockbandById = async (req, res, next) => {
   //#swagger.tags = ["Rockbands"]
+  /*  #swagger.parameters['body'] = {
+        in: 'body',
+        description: 'Rockband data',
+        required: true,
+        schema: {
+          name: 'Queen',
+          year: '1970',
+          singer: 'Freddie Mercury'
+        }
+  } */
   try {
     const { id } = req.params;
 

@@ -1,4 +1,4 @@
-const mongodb = require("../routes/data/database");
+const mongodb = require("../data/database");
 const ObjectId = require("mongodb").ObjectId;
 
 const getCollection = () =>
@@ -49,6 +49,20 @@ const getSingle = async (req, res, next) => {
 
 const createMovie = async (req, res, next) => {
   //#swagger.tags=['Movies']
+  /*  #swagger.parameters['body'] = {
+        in: 'body',
+        description: 'Movie data',
+        required: true,
+        schema: {
+          title: 'Inception',
+          director: 'Christopher Nolan',
+          releaseYear: 2010,
+          duration: 148,
+          genre: 'Sci-Fi',
+          rating: 8.8,
+          synopsis: 'A thief who steals corporate secrets through dream-sharing technology.'
+        }
+  } */
   try {
     const movie = { ...req.body };
 
@@ -66,6 +80,20 @@ const createMovie = async (req, res, next) => {
 
 const updateMovie = async (req, res, next) => {
   //#swagger.tags=['Movies']
+  /*  #swagger.parameters['body'] = {
+        in: 'body',
+        description: 'Movie data',
+        required: true,
+        schema: {
+          title: 'Inception',
+          director: 'Christopher Nolan',
+          releaseYear: 2010,
+          duration: 148,
+          genre: 'Sci-Fi',
+          rating: 8.8,
+          synopsis: 'A thief who steals corporate secrets through dream-sharing technology.'
+        }
+  } */
   try {
     if (!ObjectId.isValid(req.params.id)) {
       return res.status(400).json("Invalid movie ID");

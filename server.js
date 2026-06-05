@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyparser = require("body-parser");
 const session = require("express-session");
-const mongodb = require("./routes/data/database");
+const mongodb = require("./data/database");
 const passport = require("./config/passport");
 const port = process.env.PORT || 8080;
 const app = express();
